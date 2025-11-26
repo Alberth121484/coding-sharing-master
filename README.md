@@ -1,51 +1,66 @@
 # NoteCode - Code Sharing Application
 
-A fullstack code-sharing application that allows users to create, save, and share coding snippets with unique URLs.
-
-![NoteCode Preview](./client/public/assets/Hero-Background-notecode.svg)
+A fullstack code-sharing application that allows users to create, save, and share coding snippets with unique URLs. Built with React, Node.js, and Monaco Editor.
 
 ## Features
 
-- 📝 **Code Editor**: Monaco Editor with syntax highlighting
-- 🔗 **Share Code**: Generate unique URLs for your code snippets
-- 🎨 **Themes**: Choose between Light and Dark themes
-- 🌐 **Multi-language**: Support for HTML, CSS, JavaScript, and more
-- 📱 **Responsive**: Works on all devices
+- 📝 **Monaco Editor**: Professional code editor with syntax highlighting
+- 🔗 **Instant Sharing**: Generate unique URLs for your code snippets
+- 🎨 **Theme Support**: Light and Dark editor themes
+- 🌐 **15+ Languages**: HTML, CSS, JavaScript, Python, and more
+- 📱 **Fully Responsive**: Optimized for mobile, tablet, and desktop
+- ⚡ **Real-time Editing**: Edit detection enables re-sharing
+- 📋 **Copy Link**: One-click URL copying with visual feedback
+- 🔔 **Toast Notifications**: Success/error feedback
+- 🛡️ **Error Boundary**: Graceful error handling
+
+## Demo
+
+Live Demo: [Your Demo URL]
 
 ## Tech Stack
 
 ### Frontend
-- React (Vite)
-- Monaco Editor
-- Tailwind CSS
-- React Router
+- **React 18** with Vite
+- **Monaco Editor** (@monaco-editor/react)
+- **Tailwind CSS** for styling
+- **React Router v6** for navigation
 
 ### Backend
-- Node.js
-- Express.js
-- SQLite (Development) / PostgreSQL (Production)
-- UUID for unique ID generation
+- **Node.js** with Express.js
+- **Sequelize ORM** with SQLite
+- **UUID** for unique ID generation
+- **CORS** enabled for cross-origin requests
 
 ## Project Structure
 
 ```
-coding-sharing-master/
-├── client/                 # React frontend
-│   ├── public/
-│   │   └── assets/        # Images, icons, logos
+notecode/
+├── client/                     # React frontend
+│   ├── public/assets/          # Images, icons, logos
 │   └── src/
-│       ├── components/    # React components
-│       ├── pages/         # Page components
-│       └── styles/        # CSS files
-├── server/                 # Express backend
-│   ├── config/            # Database config
-│   ├── controllers/       # Route handlers
-│   ├── models/            # Database models
-│   └── routes/            # API routes
+│       ├── components/         # Reusable UI components
+│       │   ├── CodeEditor.jsx  # Monaco Editor wrapper
+│       │   ├── ControlsBar.jsx # Language/theme selectors + buttons
+│       │   ├── Layout.jsx      # Main layout with gradient
+│       │   ├── Toast.jsx       # Toast notification system
+│       │   └── ...
+│       ├── pages/              # Page components
+│       │   ├── Home.jsx        # Main editor page
+│       │   └── NotFound.jsx    # 404 page
+│       ├── services/           # API service layer
+│       ├── constants/          # App constants
+│       └── styles/             # CSS files
+├── server/                     # Express backend
+│   ├── config/                 # Database configuration
+│   ├── controllers/            # Request handlers
+│   ├── models/                 # Sequelize models
+│   └── routes/                 # API route definitions
+├── package.json                # Root package (monorepo scripts)
 └── README.md
 ```
 
-## Getting Started
+## Quick Start
 
 ### Prerequisites
 - Node.js >= 18.x
@@ -53,59 +68,146 @@ coding-sharing-master/
 
 ### Installation
 
-1. Clone the repository
 ```bash
+# Clone the repository
 git clone <repository-url>
-cd coding-sharing-master
-```
+cd notecode
 
-2. Install dependencies
-```bash
-# Install all dependencies (root, client, server)
+# Install root dependencies
 npm install
-```
 
-3. Set up environment variables
-```bash
-# Server
+# Install client and server dependencies
+npm run install:all
+
+# Set up environment variables
 cp server/.env.example server/.env
 ```
 
-4. Run the development servers
+### Development
+
 ```bash
-# Run both client and server
+# Run both client and server concurrently
 npm run dev
+
+# Or run separately
+npm run client    # Frontend at http://localhost:5173
+npm run server    # Backend at http://localhost:3001
 ```
 
-### Available Scripts
+### Production Build
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Run both client and server in development |
-| `npm run client` | Run only the frontend |
-| `npm run server` | Run only the backend |
-| `npm run build` | Build for production |
+```bash
+npm run build     # Build client for production
+npm run start     # Start production server
+```
 
-## API Endpoints
+## API Reference
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/snippets` | Save a new code snippet |
-| GET | `/api/snippets/:id` | Get a code snippet by ID |
+### Create Snippet
+```http
+POST /api/snippets
+Content-Type: application/json
+
+{
+  "code": "<html>...</html>",
+  "language": "html",
+  "theme": "light"
+}
+```
+
+**Response:** `201 Created`
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "code": "<html>...</html>",
+  "language": "html",
+  "theme": "light",
+  "createdAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### Get Snippet
+```http
+GET /api/snippets/:id
+```
+
+**Response:** `200 OK`
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "code": "<html>...</html>",
+  "language": "html",
+  "theme": "light",
+  "createdAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### Health Check
+```http
+GET /api/health
+```
 
 ## Environment Variables
 
 ### Server (.env)
-```
+```env
 PORT=3001
 DATABASE_URL=./database.sqlite
 NODE_ENV=development
+CLIENT_URL=http://localhost:5173
 ```
+
+### Client (.env) - Optional
+```env
+VITE_API_URL=/api
+```
+
+## Supported Languages
+
+| Language | Syntax |
+|----------|--------|
+| HTML | html |
+| CSS | css |
+| JavaScript | javascript |
+| TypeScript | typescript |
+| JSON | json |
+| Markdown | markdown |
+| Python | python |
+| Java | java |
+| C# | csharp |
+| C++ | cpp |
+| PHP | php |
+| Ruby | ruby |
+| Go | go |
+| Rust | rust |
+| SQL | sql |
 
 ## Deployment
 
-- **Frontend**: Deploy to Netlify or Vercel
-- **Backend**: Deploy to Heroku, Railway, or Vercel
+### Frontend (Netlify/Vercel)
+1. Build: `npm run build --prefix client`
+2. Publish directory: `client/dist`
+3. Set `VITE_API_URL` to your backend URL
+
+### Backend (Railway/Heroku/Vercel)
+1. Set environment variables
+2. For production, consider PostgreSQL instead of SQLite
+3. Update `DATABASE_URL` accordingly
+
+## User Flow
+
+1. **Visit homepage** → See default HTML snippet
+2. **Edit code** → Choose language/theme
+3. **Click Share** → Code saved, redirected to unique URL
+4. **Share URL** → Others can view your code
+5. **Edit shared code** → Share button re-enables
+6. **Click Share again** → New unique URL generated
+
+## Design Credits
+
+- Font: [Outfit](https://fonts.google.com/specimen/Outfit) by Rodrigo Fuenzalida
+- Colors: `#FFFFFE`, `#121826`, `#364153`, `#CED6E1`, `#406AFF`
+- Gradient: `linear-gradient(to bottom right, #B787F5, #743EE4)`
 
 ## License
 
@@ -113,4 +215,4 @@ MIT
 
 ## Author
 
-Built as part of [devChallenges.io](https://devchallenges.io) Full-Stack challenge.
+Built as part of [devChallenges.io](https://devchallenges.io) Full-Stack Developer challenge.

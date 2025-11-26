@@ -1,11 +1,14 @@
 import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
     <div className="min-h-screen bg-notecode-white font-outfit">
       <Routes>
-        <Route path="/" element={<div>NoteCode - Coming Soon</div>} />
-        <Route path="/:id" element={<div>Shared Snippet</div>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/:id" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   )
