@@ -2,6 +2,12 @@
 
 A fullstack code-sharing application that allows users to create, save, and share coding snippets with unique URLs. Built with React, Node.js, and Monaco Editor.
 
+![Preview Ligth Mode](https://github.com/user-attachments/assets/2ae21592-ebc4-4476-aac0-67e30b699dd1)
+![Preview Ligth Mode Shared](https://github.com/user-attachments/assets/8da9a881-db84-4005-b6e7-d3b0509bc4e1)
+![Preview Dark Mode](https://github.com/user-attachments/assets/ed7fc990-4967-49c4-984a-9b7ce333cd1a)
+
+
+
 ## Features
 
 - 📝 **Monaco Editor**: Professional code editor with syntax highlighting
